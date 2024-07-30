@@ -88,7 +88,16 @@ def get_all_applications():
 @app.route('/search', methods=['GET'])
 def search_applications():
     query_keys = ["number", "issue_date", "expiration_date", "issue_state", "last_name", "first_name", "dob"]
-    query = {key: request.args.get(key) for key in query_keys if request.args.get(key) is not None}
+    query = {}
+
+    for key in query_keys:
+        value = request.args.get(key)
+        if value:
+            # Use regex for partial matching for specific fields
+            # if key in ["first_name", "last_name", "issue_state"]:
+            query[key] = {"$regex": f"^{value}", "$options": "i"}  # Case-insensitive match
+            # else:
+                # query[key] = value
 
     result = []
     for form in handWrittenFormsCollection.find(query):
