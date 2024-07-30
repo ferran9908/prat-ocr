@@ -27,7 +27,7 @@ class JSONEncoder(json.JSONEncoder):
             return str(o)
         return json.JSONEncoder.default(self, o)
 
-MONGO_CONNECTION_URI = f'mongodb+srv://pb642001:{os.environ.get('MONGO_PASSWORD')}@ocrdb.kbu0vkh.mongodb.net/?retryWrites=true&w=majority&appName=ocrdb'
+MONGO_CONNECTION_URI = f"mongodb+srv://pb642001:{os.environ.get('MONGO_PASSWORD')}@ocrdb.kbu0vkh.mongodb.net/?retryWrites=true&w=majority&appName=ocrdb"
 
 # MongoDB configuration
 mongo_client = MongoClient(MONGO_CONNECTION_URI)
