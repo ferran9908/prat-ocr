@@ -6,6 +6,7 @@ from llm import process_1003_pdf
 from pymongo import MongoClient
 import re
 from bson import ObjectId
+from flask_cors import CORS
 
 
 def extract_json_data(input_str):
@@ -37,6 +38,7 @@ handWrittenFormsCollection = db['handwrittenForms']
 
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/upload', methods=['POST'])
@@ -59,8 +61,11 @@ def upload_pdf():
 
        # Process the PDF file
         result_str = process_1003_pdf(file_path)
+        print("response from LLM:", result_str)
 
         result_dict = json.loads(extract_json_data(result_str))
+
+        print("result dict", result_dict)
 
         license = result_dict['license']
         licenseCollection.insert_one(license)
@@ -103,7 +108,11 @@ def search_applications():
     for form in handWrittenFormsCollection.find(query):
         result.append(form)
 
-    return JSONEncoder().encode(result)
+    return JSONEncoder().encode({
+        'success': True,
+        'data': result
+    })
+
 
 @app.route('/', methods=['GET'])
 def health_check():

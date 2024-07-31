@@ -86,7 +86,7 @@ def error_exit(error_message):
 def process_1003_information(extracted_text):
     preamble = ("What you are seeing is a filled handwritting sample form. Your job is to extract the "
                 "information from it accurately. There are going to be printed keys and filled out handwritten version of that printed text")
-    postamble = "Do not include any explanation in the reply. Only include the extracted information in the reply."
+    postamble = "Do not include any explanation in the reply. Only include the extracted information in the reply. RETURN NOTHING OTHER THAN THE JSON RESULT. DO NOT INCLUDE ANY PREFIXES OR BACKTICKS FOR FORMATTING."
     system_template = "{preamble}"
     system_message_prompt = SystemMessagePromptTemplate.from_template(system_template)
     human_template = "{format_instructions}\n\n{extracted_text}\n\n{postamble}"
